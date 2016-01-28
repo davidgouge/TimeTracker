@@ -1,0 +1,19 @@
+﻿@model TimeTracker.Model.TimeLog
+
+@{
+    ViewBag.Title = "Add Time Log";
+}
+
+<h2>Add Time Log</h2>
+
+<form method="post" asp-controller="Home" asp-action="AddTimeLog">
+    <div>
+        <label asp-for="Start">Start</label>
+        <input asp-for="Start"/>
+    </div>
+    <div>
+        <label asp-for="End">End</label>
+        <input asp-for="End"/>
+    </div>
+    <input type="submit"/>
+</form>
