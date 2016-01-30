@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -25,15 +26,21 @@ namespace TimeTracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddEntityFramework().AddSqlServer().AddDbContext<TimeTrackerContext>();
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<TimeTrackerContext>(builder => builder.UseSqlServer(Config["Data:ConnectionString"]));// .AddDbContext<TimeTrackerContext>();
+
+            services.AddTransient<DataSeeder>();
         }
         
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, DataSeeder seeder)
         {
             app.UseStaticFiles();
             app.UseMvc(config => {
                 config.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "Home", action = "Index" });
             });
+
+            seeder.Seed();
         }
         
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);

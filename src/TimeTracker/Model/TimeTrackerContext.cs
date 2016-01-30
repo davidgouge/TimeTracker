@@ -7,16 +7,11 @@ namespace TimeTracker.Model
         public TimeTrackerContext()
         {
             Database.EnsureCreated();
+            Database.Migrate();
         }
         public DbSet<TimeLog> TimeLogs { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<User> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connectionString = Startup.Config["Data:ConnectionString"];
-            optionsBuilder.UseSqlServer(connectionString);
-            base.OnConfiguring(optionsBuilder);
-        }
+        public DbSet<Invoice> Invoices { get; set; }
     }
 }

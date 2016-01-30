@@ -11,5 +11,6 @@ namespace TimeTracker.Model
 
         public Client Client { get; set; }
         public User User { get; set; }
+        public Invoice OnInvoice { get; set; }
     }
 }
